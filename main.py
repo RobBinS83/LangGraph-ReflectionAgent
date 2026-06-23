@@ -64,7 +64,10 @@ workflow.get_graph().draw_mermaid_png(output_file_path="flow.png")
 def main():
     print("Hello from LangGraph!")
     inputs = HumanMessage(content=""" Make this email better: 
-                          Team, 
+                          
+                          
+                          Team,
+
                           I want to share an update regarding our executive leadership team. 
                           Sam Hammock, our Chief Human Resources Officer, has decided this is the 
                           right time for her to pursue a new opportunity outside of Verizon. 
