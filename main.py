@@ -33,26 +33,29 @@ def should_continue(state: AgentState):
     last_maessage = messages[-1]
 
     content = last_maessage.content
+    
+    # if isinstance(content, list):
+    #     text_str = " ".join(
+    #         block.get("text", "") for block in content if isinstance(block, dict) and "text" in block
+    #     )
+    # else:
+    #     text_str = str(content or "")
 
-    if isinstance(content, list):
-        text_str = " ".join(
-            block.get("text", "") for block in content if isinstance(block, dict) and "text" in block
-        )
-    else:
-        text_str = str(content or "")
+    # if "APPROVED" in text_str.upper():
+    #     return END
 
-    if "APPROVED" in text_str.upper():
+    if "APPROVED" in content:
         return END
     
     if len(messages) > 20:
         return END
     
-    return REFLECT
+    return GENERATE
 
-builder.add_conditional_edges(GENERATE, should_continue, path_map={
+builder.add_conditional_edges(REFLECT, should_continue, path_map={
     END: END,
-    REFLECT: REFLECT})
-builder.add_edge(REFLECT, GENERATE)
+    GENERATE: GENERATE})
+builder.add_edge(GENERATE, REFLECT)
 
 workflow = builder.compile()
 workflow.get_graph().draw_mermaid_png(output_file_path="flow.png") 
